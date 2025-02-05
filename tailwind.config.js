@@ -1,31 +1,33 @@
+
+import daisyui from "daisyui";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}", // Adjust this path based on your project structure
   ],
   theme: {
     extend: {
-      animation: {
-        blob: "blob 7s infinite",
+      // Custom classes for toast positioning
+      spacing: {
+        "toast-top": "20px", // Distance from the top of the screen
       },
       keyframes: {
-        blob: {
-          "0%": {
-            transform: "translate(0px, 0px) scale(1)",
+        "slide-down": {
+          from: {
+            opacity: "0",
+            transform: "translateY(-20px)",
           },
-          "33%": {
-            transform: "translate(30px, -50px) scale(1.1)",
-          },
-          "66%": {
-            transform: "translate(-20px, 20px) scale(0.9)",
-          },
-          "100%": {
-            transform: "translate(0px, 0px) scale(1)",
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
           },
         },
       },
+      animation: {
+        "slide-down": "slide-down 0.3s ease-out", // Animation for toast
+      },
     },
   },
-  plugins: [require("daisyui")],
-}
+  plugins: [daisyui],
+};
