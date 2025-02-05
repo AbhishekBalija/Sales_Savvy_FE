@@ -8,7 +8,7 @@ const useAuth = () => {
     password: "",
     username: "",
     confirmPassword: "",
-    role: "CUSTOMER"
+    role: ""
   });
   
   const [errors, setErrors] = useState({});
@@ -137,7 +137,7 @@ const useAuth = () => {
           setErrors((prev) => ({ ...prev, password: errorMessage }));
         }
       }
-    } catch (error) {
+    } catch {
       setToastState({
         isOpen: true,
         type: "error",
@@ -194,7 +194,7 @@ const useAuth = () => {
           message: data.message || "Invalid credentials"
         });
       }
-    } catch (error) {
+    } catch{
       setToastState({
         isOpen: true,
         type: "error",
