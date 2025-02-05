@@ -1,7 +1,26 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, ShoppingCart, Heart, Star, ChevronRight } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  Heart,
+  Star,
+  ChevronRight,
+  LogOut,
+} from "lucide-react";
+import useAuth from "../hooks/useAuth"; // Adjust the path if needed
 
 const CustomerHome = () => {
+  const { handleLogout } = useAuth();
+
+  // Retrieve the username from localStorage (or default to "Guest")
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username") || "Guest";
+    setUsername(storedUsername);
+  }, []);
+
   // Sample featured products data
   const featuredProducts = [
     {
@@ -40,32 +59,50 @@ const CustomerHome = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
       <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Search Bar */}
-            <div className="flex-1 max-w-xl">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-purple-500"
-                />
-                <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          {/* Left: Search Bar */}
+          <div className="flex-1 max-w-xl">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-purple-500"
+              />
+              <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
+            </div>
+          </div>
+
+          {/* Right: Icons, Profile, and Logout */}
+          <div className="flex items-center space-x-4">
+            {/* Heart Icon */}
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <Heart className="w-6 h-6 text-gray-600" />
+            </button>
+
+            {/* Shopping Cart Icon */}
+            <button className="relative p-2 hover:bg-gray-100 rounded-full">
+              <ShoppingCart className="w-6 h-6 text-gray-600" />
+              <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                3
+              </span>
+            </button>
+
+            {/* Profile Display */}
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+                {username.charAt(0).toUpperCase()}
               </div>
+              <span className="text-gray-800 font-medium">{username}</span>
             </div>
 
-            {/* Icons */}
-            <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-gray-100 rounded-full">
-                <Heart className="w-6 h-6 text-gray-600" />
-              </button>
-              <button className="p-2 hover:bg-gray-100 rounded-full relative">
-                <ShoppingCart className="w-6 h-6 text-gray-600" />
-                <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  3
-                </span>
-              </button>
-            </div>
+            {/* Logout Button with Icon */}
+            <button
+              onClick={handleLogout}
+              className="p-2 border border-red-500 text-red-500 rounded-full hover:bg-red-500 hover:text-white transition-colors"
+              title="Logout"
+            >
+              <LogOut className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </header>

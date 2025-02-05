@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
   const [isActive, setIsActive] = useState(false);
@@ -10,7 +10,6 @@ const useAuth = () => {
     confirmPassword: "",
     role: ""
   });
-  
   const [errors, setErrors] = useState({});
   const [toastState, setToastState] = useState({
     isOpen: false,
@@ -204,6 +203,56 @@ const useAuth = () => {
     }
   };
 
+  // New Logout Functionality
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setToastState({
+          isOpen: true,
+          type: "error",
+          title: "Logout Error",
+          message: "No token found",
+        });
+        return;
+      }
+      const response = await fetch("http://localhost:8080/api/users/logout", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        setToastState({
+          isOpen: true,
+          type: "success",
+          title: "Logged Out",
+          message: data.message || "Logged out successfully",
+        });
+        navigate("/");
+      } else {
+        setToastState({
+          isOpen: true,
+          type: "error",
+          title: "Logout Failed",
+          message: data.Error || data.message || "Logout failed",
+        });
+      }
+    } catch {
+      setToastState({
+        isOpen: true,
+        type: "error",
+        title: "Connection Error",
+        message: "An error occurred during logout",
+      });
+    }
+  };
+
   return {
     isActive,
     setIsActive,
@@ -212,7 +261,8 @@ const useAuth = () => {
     toastState,
     handleInput,
     handleSignUp,
-    handleSignIn
+    handleSignIn,
+    handleLogout,
   };
 };
 
