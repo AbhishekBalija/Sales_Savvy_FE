@@ -18,6 +18,12 @@ const useAuth = () => {
     message: "",
   });
 
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -117,7 +123,7 @@ const useAuth = () => {
           username: "",
           email: "",
           password: "",
-          role: "CUSTOMER",
+          role: "",
         });
       } else {
         const errorMessage = data.Error || "Registration failed";
@@ -148,7 +154,7 @@ const useAuth = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
+  
     if (!validateForm(false)) {
       setToastState({
         isOpen: true,
@@ -158,7 +164,7 @@ const useAuth = () => {
       });
       return;
     }
-
+  
     try {
       const response = await fetch("http://localhost:8080/api/users/login", {
         method: "POST",
@@ -167,91 +173,93 @@ const useAuth = () => {
           username: formData.username,
           password: formData.password,
         }),
+        credentials: "include", // Include cookies in the request
       });
-
-      const data = await response.json();
-
-      if (response.ok && data.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("username", data.username);
-        
-        setToastState({
-          isOpen: true,
-          type: "success",
-          title: "Success",
-          message: "Login successful!"
-        });
-
-        setTimeout(() => {
-          navigate("/home");
-        }, 1000);
-      } else {
-        setToastState({
-          isOpen: true,
-          type: "error",
-          title: "Login Failed",
-          message: data.message || "Invalid credentials"
-        });
+  
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Login failed");
       }
-    } catch{
+  
+      const data = await response.json();
+  
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("role", data.role);
+  
+      setToastState({
+        isOpen: true,
+        type: "success",
+        title: "Success",
+        message: "Login successful!",
+      });
+  
+      setTimeout(() => {
+        navigate("/home");
+      }, 1000);
+    } catch (error) {
       setToastState({
         isOpen: true,
         type: "error",
-        title: "Connection Error",
-        message: "Please check your internet connection and try again",
+        title: "Login Failed",
+        message: error.message || "Please check your internet connection and try again",
       });
     }
   };
-
-  // New Logout Functionality
+  
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem("token");
+      // Extract the jwt cookie
+      const token = getCookie("jwt");
       if (!token) {
         setToastState({
           isOpen: true,
           type: "error",
-          title: "Logout Error",
-          message: "No token found",
+          title: "Logout Failed",
+          message: "Token not found. Please log in again.",
         });
+        navigate("/");
         return;
       }
+  
+      // Call the logout endpoint with the Authorization header
       const response = await fetch("http://localhost:8080/api/users/logout", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
         },
+        credentials: "include", // Ensure cookies are sent with the request
       });
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        setToastState({
-          isOpen: true,
-          type: "success",
-          title: "Logged Out",
-          message: data.message || "Logged out successfully",
-        });
-        navigate("/");
-      } else {
-        setToastState({
-          isOpen: true,
-          type: "error",
-          title: "Logout Failed",
-          message: data.Error || data.message || "Logout failed",
-        });
+  
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.Error || "Logout failed");
       }
-    } catch {
+  
+      const data = await response.json();
+  
+      // Clear local storage
+      localStorage.removeItem("username");
+      localStorage.removeItem("role");
+  
+      setToastState({
+        isOpen: true,
+        type: "success",
+        title: "Logged Out",
+        message: data.message || "Logged out successfully",
+      });
+  
+      navigate("/");
+    } catch (error) {
       setToastState({
         isOpen: true,
         type: "error",
-        title: "Connection Error",
-        message: "An error occurred during logout",
+        title: "Logout Failed",
+        message: error.message || "An error occurred during logout",
       });
     }
   };
+  
 
   return {
     isActive,

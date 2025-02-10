@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Rekalgera';
+  src: url('/fonts/Rekalgera-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SuperWoobly';
+  src: url('/fonts/SuperWoobly-8MJIz.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Rostey;
+  src: url('/fonts/Rostey.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .animate-blob {
   animation: blob 7s infinite;
