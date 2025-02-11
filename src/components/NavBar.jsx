@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { ShoppingBag, Search, Heart } from "lucide-react";
+import { Search, Heart } from "lucide-react";
 import UserProfileDropdown from "./UserProfileDropdown";
+import ShoppingCartButton from "./ShoppingCartButton";
 
 const Navbar = ({
   username,
@@ -19,8 +20,14 @@ const Navbar = ({
           {/* Left: Brand Logo and Search */}
           <div className="flex items-center space-x-6">
             {/* Brand Logo */}
-            <div className="flex items-center space-x-3">
-              <ShoppingBag className="h-8 w-8 text-purple-600" />
+            <div className="flex items-center space-x-3 ">
+              <div className="h-12 w-12 rounded-full bg-purple-500 flex items-center justify-center">
+                <img
+                  src="/SalesSavvyLogo2.png"
+                  alt="Sales Savvy Logo"
+                  className="h-[13] w-[13] object-cover mix-blend-screen"
+                />
+              </div>
               <span className="font-[rostey] text-2xl">Sales Savvy</span>
             </div>
 
@@ -49,13 +56,8 @@ const Navbar = ({
               <Heart className="h-6 w-6" />
             </button>
 
-            {/* Shopping Cart */}
-            <button className="relative text-gray-600 hover:text-purple-600 transition-colors">
-              <ShoppingBag className="h-6 w-6" />
-              <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
-            </button>
+            {/* Cart Button */}
+            <ShoppingCartButton />
           </div>
         </div>
 
