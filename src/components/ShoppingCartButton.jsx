@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ShoppingBag } from "lucide-react";
 
 const ShoppingCartButton = () => {
+  const navigate = useNavigate();
   const [cartItemCount, setCartItemCount] = useState(0);
   const username = localStorage.getItem("username"); // Read from localStorage
 
@@ -28,7 +30,10 @@ const ShoppingCartButton = () => {
   }, [username]); // Runs when username changes
 
   return (
-    <button className="relative text-gray-600 hover:text-purple-600 transition-colors">
+    <button
+      className="relative text-gray-600 hover:text-purple-600 transition-colors"
+      onClick={() => navigate("/cart")}
+    >
       <ShoppingBag className="h-6 w-6" />
       <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
         {cartItemCount}

@@ -1,7 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, User, Settings, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  LogOut,
+  User,
+  PackageOpen,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 
 const UserProfileDropdown = ({ username }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -46,10 +52,10 @@ const UserProfileDropdown = ({ username }) => {
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className="flex items-center space-x-3 p-1 pr-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none"
       >
-        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center text-white text-lg font-semibold shadow-sm">
+        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center text-white text-lg font-semibold shadow- cursor-pointer">
           {username.charAt(0).toUpperCase()}
         </div>
-        <div className="flex flex-col items-start mr-1">
+        <div className="flex flex-col items-start mr-1 cursor-pointer">
           <span className="text-lg font-[superwoobly] text-gray-800">
             {username}
           </span>
@@ -89,10 +95,10 @@ const UserProfileDropdown = ({ username }) => {
               }}
             />
             <ProfileMenuItem
-              icon={Settings}
-              label="Settings"
+              icon={PackageOpen}
+              label="Orders"
               onClick={() => {
-                navigate("/settings");
+                navigate("/orders");
                 setIsDropdownOpen(false);
               }}
             />
