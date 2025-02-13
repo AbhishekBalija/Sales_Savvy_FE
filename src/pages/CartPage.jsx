@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import usePayment from "../hooks/usePayment";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
   const [username, setUsername] = useState("Guest");
@@ -29,7 +30,7 @@ const CartPage = () => {
 
   const handleProceedToCheckout = () => {
     if (!cartItems.length) {
-      alert("Your cart is empty");
+      toast.warn("Your cart is empty");
       return;
     }
 

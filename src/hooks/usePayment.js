@@ -1,18 +1,14 @@
 // usePayment.js
 import { useState } from "react";
+import { toast } from "react-toastify"; // Import toast
 
 const usePayment = () => {
   const [paymentError, setPaymentError] = useState(null);
-
   const handleCheckout = async (cartItems, totalAmount, username, navigate) => {
-    // console.log("handleCheckout function called", { cartItems, totalAmount, username });
-
-    // Validate inputs
     if (!cartItems?.length || !totalAmount) {
       setPaymentError("Invalid cart data");
       return;
     }
-
     try {
       const requestBody = {
         totalAmount: totalAmount,
@@ -22,22 +18,17 @@ const usePayment = () => {
           price: item.price_per_unit,
         })),
       };
-
-      // Create Razorpay order
       const response = await fetch("http://localhost:8080/api/payment/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(requestBody),
       });
-
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText);
       }
-
       const razorpayOrderId = await response.text();
-
       const options = {
         key: "rzp_test_pDmeThQ43TOY1D",
         amount: Math.round(totalAmount * 100), // Convert to paise and ensure it's an integer
@@ -60,16 +51,16 @@ const usePayment = () => {
                 }),
               }
             );
-
             if (!verifyResponse.ok) {
               throw new Error(await verifyResponse.text());
             }
-
-            alert("Payment successful!");
+            // Replace alert with toast success
             navigate("/home");
+            toast.success("Payment successful!");
           } catch (error) {
             console.error("Payment verification failed:", error);
-            alert("Payment verification failed: " + error.message);
+            // Replace alert with toast error
+            toast.error(`Payment verification failed: ${error.message}`);
           }
         },
         prefill: {
@@ -83,18 +74,20 @@ const usePayment = () => {
         modal: {
           ondismiss: function () {
             setPaymentError("Payment cancelled");
+            // Replace alert with toast warning
+            toast.warn("Payment cancelled");
           },
         },
       };
-
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error) {
       console.error("Checkout error:", error);
       setPaymentError(error.message || "Payment failed. Please try again.");
+      // Replace alert with toast error
+      toast.error(error.message || "Payment failed. Please try again.");
     }
   };
-
   return { handleCheckout, paymentError };
 };
 

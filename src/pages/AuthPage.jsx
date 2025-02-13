@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Particles from "../components/ParticlesBackground";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AuthPage = () => {
   const {
@@ -8,7 +10,6 @@ const AuthPage = () => {
     setIsActive,
     formData,
     errors,
-    toastState,
     handleInput,
     handleSignUp,
     handleSignIn,
@@ -16,6 +17,19 @@ const AuthPage = () => {
 
   return (
     <div className="relative h-screen overflow-hidden">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false} // Changed to false to prevent staying open on blur
+        draggable
+        pauseOnHover={false} // Changed to false to ensure it closes after 3 seconds
+        theme="colored"
+        limit={1} // Added to prevent multiple toasts stacking
+      />
       <div className="absolute inset-0 -z-10">
         <Particles
           particleColors={["#7e47c2", "#7e47c2"]}
@@ -29,23 +43,6 @@ const AuthPage = () => {
         />
       </div>
       <div className="min-h-screen flex flex-col items-center justify-center relative z-10">
-        {/* Toast Notification */}
-        {toastState.isOpen && (
-          <div className="toast fixed top-[20px] left-1/2 transform -translate-x-1/2 z-[9999]">
-            <div
-              className={`alert ${
-                toastState.type === "success"
-                  ? "bg-green-500 text-white"
-                  : toastState.type === "error"
-                  ? "bg-red-500 text-white"
-                  : "bg-blue-500 text-white"
-              } rounded-lg px-4 py-2 shadow-lg animate-slide-down`}
-            >
-              <span>{toastState.message}</span>
-            </div>
-          </div>
-        )}
-
         {/* Main Container */}
         <div
           className={`bg-white border-1 border-[#7e47c2] rounded-3xl shadow-lg relative overflow-hidden w-full max-w-4xl min-h-[480px] transition-all duration-600 ease-in-out ${

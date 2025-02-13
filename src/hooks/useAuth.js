@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const useAuth = () => {
   const [isActive, setIsActive] = useState(false);
@@ -11,32 +12,13 @@ const useAuth = () => {
     role: ""
   });
   const [errors, setErrors] = useState({});
-  const [toastState, setToastState] = useState({
-    isOpen: false,
-    type: "success",
-    title: "",
-    message: "",
-  });
+  const navigate = useNavigate();
 
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(";").shift();
   };
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    let timer = null;
-    if (toastState.isOpen) {
-      timer = setTimeout(() => {
-        setToastState((prev) => ({ ...prev, isOpen: false }));
-      }, 3000);
-    }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [toastState.isOpen]);
 
   const validateForm = (isSignUp = false) => {
     const newErrors = {};
@@ -88,11 +70,10 @@ const useAuth = () => {
     e.preventDefault();
 
     if (!validateForm(true)) {
-      setToastState({
-        isOpen: true,
-        type: "error",
-        title: "Validation Error",
-        message: "Please check the form for errors",
+      toast.error("Please check the form for errors", {
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
       return;
     }
@@ -112,26 +93,28 @@ const useAuth = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setToastState({
-          isOpen: true,
-          type: "success",
-          title: "Success",
-          message: data.message || "Registration successful!",
+        toast.success(data.message || "Registration successful!", {
+          autoClose: 3000,
+          closeOnClick: true,
+          pauseOnHover: false,
         });
-        setIsActive(false);
-        setFormData({
-          username: "",
-          email: "",
-          password: "",
-          role: "",
-        });
+        
+        // Reset form and switch to sign in after a short delay
+        setTimeout(() => {
+          setIsActive(false);
+          setFormData({
+            username: "",
+            email: "",
+            password: "",
+            role: "",
+          });
+        }, 3000);
       } else {
         const errorMessage = data.Error || "Registration failed";
-        setToastState({
-          isOpen: true,
-          type: "error",
-          title: "Registration Failed",
-          message: errorMessage,
+        toast.error(errorMessage, {
+          autoClose: 3000,
+          closeOnClick: true,
+          pauseOnHover: false,
         });
 
         if (errorMessage.includes("Username")) {
@@ -143,11 +126,10 @@ const useAuth = () => {
         }
       }
     } catch {
-      setToastState({
-        isOpen: true,
-        type: "error",
-        title: "Connection Error",
-        message: "Please check your internet connection and try again",
+      toast.error("Please check your internet connection and try again", {
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
     }
   };
@@ -156,11 +138,10 @@ const useAuth = () => {
     e.preventDefault();
   
     if (!validateForm(false)) {
-      setToastState({
-        isOpen: true,
-        type: "error",
-        title: "Validation Error",
-        message: "Please check the form for errors",
+      toast.error("Please check the form for errors", {
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
       return;
     }
@@ -173,100 +154,96 @@ const useAuth = () => {
           username: formData.username,
           password: formData.password,
         }),
-        credentials: "include", // Include cookies in the request
+        credentials: "include",
       });
   
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Login failed");
-      }
-  
       const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Invalid Credentials");
+      }
   
       localStorage.setItem("username", data.username);
       localStorage.setItem("role", data.role);
   
-      setToastState({
-        isOpen: true,
-        type: "success",
-        title: "Success",
-        message: "Login successful!",
+      const toastId = toast.success("Login successful!", {
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
   
+      // Navigate after toast closes
       setTimeout(() => {
+        toast.dismiss(toastId);
         navigate("/home");
-      }, 1000);
+      }, 2000);
+      
     } catch (error) {
-      setToastState({
-        isOpen: true,
-        type: "error",
-        title: "Login Failed",
-        message: error.message || "Please check your internet connection and try again",
+      toast.error(error.message || "Please check your internet connection and try again", {
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
     }
   };
-  
+
   const handleLogout = async () => {
     try {
-      // Extract the jwt cookie
       const token = getCookie("jwt");
       if (!token) {
-        setToastState({
-          isOpen: true,
-          type: "error",
-          title: "Logout Failed",
-          message: "Token not found. Please log in again.",
+        toast.error("Token not found. Please log in again.", {
+          autoClose: 3000,
+          closeOnClick: true,
+          pauseOnHover: false,
         });
         navigate("/");
         return;
       }
   
-      // Call the logout endpoint with the Authorization header
       const response = await fetch("http://localhost:8080/api/users/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          Authorization: `Bearer ${token}`,
         },
-        credentials: "include", // Ensure cookies are sent with the request
+        credentials: "include",
       });
-  
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.Error || "Logout failed");
-      }
   
       const data = await response.json();
   
-      // Clear local storage
+      if (!response.ok) {
+        throw new Error(data.Error || "Logout failed");
+      }
+  
       localStorage.removeItem("username");
       localStorage.removeItem("role");
   
-      setToastState({
-        isOpen: true,
-        type: "success",
-        title: "Logged Out",
-        message: data.message || "Logged out successfully",
+      const toastId = toast.success(data.message || "Logged out successfully", {
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
   
-      navigate("/");
+      // Navigate after toast closes
+      setTimeout(() => {
+        toast.dismiss(toastId);
+        navigate("/");
+      }, 2000);
+      
     } catch (error) {
-      setToastState({
-        isOpen: true,
-        type: "error",
-        title: "Logout Failed",
-        message: error.message || "An error occurred during logout",
+      toast.error(error.message || "An error occurred during logout", {
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
     }
   };
-  
 
   return {
     isActive,
     setIsActive,
     formData,
     errors,
-    toastState,
     handleInput,
     handleSignUp,
     handleSignIn,
