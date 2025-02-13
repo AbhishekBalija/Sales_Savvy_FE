@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Particles from "../components/ParticlesBackground";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import ForgotPasswordModal from "../components/ForgotPasswordModal";
 
 const AuthPage = () => {
   const {
@@ -14,6 +15,7 @@ const AuthPage = () => {
     handleSignUp,
     handleSignIn,
   } = useAuth();
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -175,12 +177,17 @@ const AuthPage = () => {
                   <p className="text-red-500 text-xs mt-1">{errors.password}</p>
                 )}
               </div>
-              <Link
-                to="#"
-                className="text-xs text-gray-700 my-3 hover:underline"
+              <button
+                type="button" // Add this to prevent form submission
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent form submission
+                  e.stopPropagation(); // Stop event bubbling
+                  setShowForgotPassword(true);
+                }}
+                className="text-xs text-gray-700 my-3 hover:underline cursor-pointer"
               >
                 Forgot Your Password?
-              </Link>
+              </button>
               <button
                 type="submit"
                 className="bg-[#512da8] text-white text-xs py-2 px-11 rounded-lg font-semibold uppercase mt-2 cursor-pointer border border-transparent hover:shadow-lg hover:shadow-[#7e57c2]/50 transition-colors"
@@ -240,6 +247,10 @@ const AuthPage = () => {
           </div>
         </div>
       </div>
+      <ForgotPasswordModal
+        isOpen={showForgotPassword}
+        onClose={() => setShowForgotPassword(false)}
+      />
     </div>
   );
 };
