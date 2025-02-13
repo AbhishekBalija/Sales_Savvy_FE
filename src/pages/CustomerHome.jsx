@@ -28,7 +28,7 @@ const CustomerHome = () => {
   useEffect(() => {
     if (error && error.includes("401")) {
       console.error("Unauthorized access detected. Redirecting to login...");
-      navigate("/login");
+      navigate("/auth");
     }
   }, [error, navigate]);
 
