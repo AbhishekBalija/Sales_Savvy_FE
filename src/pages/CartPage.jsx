@@ -86,7 +86,7 @@ const CartPage = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow bg-white">
+      <main className="flex-grow bg-purple-100">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="max-w-7xl mx-auto mt-4">

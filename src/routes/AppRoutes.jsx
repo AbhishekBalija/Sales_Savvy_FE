@@ -4,6 +4,8 @@ import AuthPage from "../pages/AuthPage";
 import CustomerHome from "../pages/CustomerHome";
 import NavBar from "../components/NavBar";
 import CartPage from "../pages/CartPage";
+import OrdersPage from "../pages/OrdersPage";
+import ProfilePage from "../pages/ProfilePage";
 
 const AppRoutes = () => {
   return (
@@ -13,6 +15,8 @@ const AppRoutes = () => {
       <Route path="/home" element={<CustomerHome />} />
       <Route path="/nav" element={<NavBar />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="orders" element={<OrdersPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
   );
 };

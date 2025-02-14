@@ -57,7 +57,7 @@ const CustomerHome = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-purple-100">
       <Navbar
         username={username}
         categories={CATEGORIES}

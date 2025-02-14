@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Search, Heart } from "lucide-react";
+import { Search } from "lucide-react";
 import UserProfileDropdown from "./UserProfileDropdown";
 import ShoppingCartButton from "./ShoppingCartButton";
 
@@ -50,11 +50,6 @@ const Navbar = ({
           <div className="flex items-center space-x-5">
             {/* User Profile Dropdown */}
             <UserProfileDropdown username={username} />
-
-            {/* Help Button */}
-            <button className="text-gray-600 hover:text-purple-600 transition-colors">
-              <Heart className="h-6 w-6" />
-            </button>
 
             {/* Cart Button */}
             <ShoppingCartButton />
