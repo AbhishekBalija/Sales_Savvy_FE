@@ -175,7 +175,11 @@ const useAuth = () => {
       // Navigate after toast closes
       setTimeout(() => {
         toast.dismiss(toastId);
-        navigate("/home");
+        if (data.role === "ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/home");
+        }
       }, 2000);
       
     } catch (error) {

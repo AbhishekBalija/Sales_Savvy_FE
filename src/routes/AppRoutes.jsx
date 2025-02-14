@@ -6,6 +6,7 @@ import NavBar from "../components/NavBar";
 import CartPage from "../pages/CartPage";
 import OrdersPage from "../pages/OrdersPage";
 import ProfilePage from "../pages/ProfilePage";
+import AdminDashboard from "../pages/AdminDashboard";
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/home" element={<CustomerHome />} />
+      <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/nav" element={<NavBar />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="orders" element={<OrdersPage />} />

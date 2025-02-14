@@ -121,7 +121,7 @@ const AuthPage = () => {
                 >
                   <option value="">Select Role</option>
                   <option value="CUSTOMER">CUSTOMER</option>
-                  <option value="ADMIN">ADMIN</option>
+                  {/* <option value="ADMIN">ADMIN</option> */}
                 </select>
                 {errors.role && (
                   <p className="text-red-500 text-xs mt-1">{errors.role}</p>

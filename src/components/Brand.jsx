@@ -1,6 +1,6 @@
 const Brand = () => {
   return (
-    <nav className="w-full bg-white shadow-none py-4 px-6 fixed top-0 left-0 flex items-center justify-center">
+    <nav className="w-full bg-white shadow py-4 px-6 fixed top-0 left-0 z-50 flex items-center justify-between">
       <div className="flex items-center space-x-3">
         <div className="h-12 w-12 rounded-full bg-purple-500 flex items-center justify-center">
           <img
@@ -16,5 +16,4 @@ const Brand = () => {
     </nav>
   );
 };
-
 export default Brand;

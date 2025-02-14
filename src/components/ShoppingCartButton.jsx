@@ -10,7 +10,6 @@ const ShoppingCartButton = () => {
 
   useEffect(() => {
     if (!username) return; // Stop if no username is found
-
     const fetchCartItemCount = async () => {
       try {
         const response = await axios.get(
@@ -25,7 +24,6 @@ const ShoppingCartButton = () => {
         setCartItemCount(0);
       }
     };
-
     fetchCartItemCount();
   }, [username]); // Runs when username changes
 

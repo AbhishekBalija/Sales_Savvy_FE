@@ -6,6 +6,7 @@ const useCart = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   // Fetch cart items from the backend API
   const fetchCartItems = async () => {
     try {
@@ -32,6 +33,49 @@ const useCart = () => {
       setLoading(false);
     }
   };
+
+    // Get the cart item count
+    const getCartItemCount = async () => {
+      try {
+        const username = localStorage.getItem('username');
+        const response = await fetch(`http://localhost:8080/api/cart/items/count?username=${username}`, {
+          method: 'GET',
+          credentials: 'include', // Include credentials (cookies, headers)
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch cart item count');
+        }
+        const data = await response.json();
+        return data.count || 0;
+      } catch (err) {
+        console.error('Error fetching cart item count:', err);
+        return 0;
+      }
+    };
+
+    // Add a cart item
+    const addCartItem = async (productId, quantity = 1) => {
+      try {
+        const username = localStorage.getItem('username');
+        const response = await fetch('http://localhost:8080/api/cart/add', {
+          method: 'POST',
+          credentials: 'include', // Include credentials
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, productId, quantity }), // Ensure the payload matches the expected format
+        });
+        if (!response.ok) {
+          throw new Error('Failed to add cart item');
+        }
+        fetchCartItems(); // Refresh the cart after adding
+      } catch  {
+        setError('Failed to add cart item');
+      }
+    };
 
   // Update the quantity of a cart item
   const updateCartItemQuantity = async (productId, quantity) => {
@@ -86,6 +130,8 @@ const useCart = () => {
 
   return {
     cartItems,
+    addCartItem,
+    getCartItemCount,
     overallTotalPrice,
     loading,
     error,

@@ -5,13 +5,20 @@ import "../index.css";
 
 const Hero = () => {
   const navigate = useNavigate();
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50 pt-24">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 h-screen flex flex-col lg:flex-row items-center justify-center gap-12">
+      <div className="container mx-auto px-4 md:h-screen flex flex-col md:flex-row items-center justify-center gap-12 pb-12 md:pb-0">
+        {/* Mobile Image */}
+        <div className="md:hidden mb-8">
+          <img
+            src="./SalesSavvybg.png"
+            alt="Hero Image"
+            className="w-full h-72 object-cover rounded-lg shadow-lg"
+          />
+        </div>
         {/* Left Content */}
-        <div className="flex-1 text-center lg:text-left space-y-6">
+        <div className="flex-1 text-center md:text-left space-y-6">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -21,17 +28,15 @@ const Hero = () => {
             Discover Your Style
             <span className="block text-purple-600">Shop with Confidence</span>
           </motion.h1>
-
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg text-gray-600 md:text-xl max-w-2xl mx-auto lg:mx-0"
+            className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto md:mx-0"
           >
             Explore our curated collection of premium products, designed to
             elevate your lifestyle and bring joy to your everyday moments.
           </motion.p>
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -39,7 +44,7 @@ const Hero = () => {
           >
             <button
               onClick={() => navigate("/auth")}
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-purple-600 rounded-full overflow-hidden shadow-lg transition-all duration-300 transform hover:scale-105 hover:bg-purple-700"
+              className="group relative inline-flex items-center justify-center px-6 py-3 text-lg font-bold text-white bg-purple-600 rounded-full overflow-hidden shadow-lg transition-all duration-300 transform hover:scale-105 hover:bg-purple-700"
             >
               <span className="mr-2">
                 <ShoppingBag className="w-5 h-5 transition-transform group-hover:rotate-12" />
@@ -49,13 +54,12 @@ const Hero = () => {
             </button>
           </motion.div>
         </div>
-
         {/* Right Content - Decorative Elements */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex-1 relative"
+          className="flex-1 hidden md:block relative"
         >
           <div className="relative w-full h-96">
             {/* Abstract shapes */}

@@ -1,4 +1,3 @@
-import { Heart } from "lucide-react";
 import Orders from "../components/Orders";
 import UserProfileDropdown from "../components/UserProfileDropdown";
 import ShoppingCartButton from "../components/ShoppingCartButton";
@@ -35,9 +34,6 @@ const OrdersPage = () => {
             {/* Right: Notification, Help, Cart, Profile */}
             <div className="flex items-center space-x-5">
               <UserProfileDropdown username={username} />
-              <button className="text-gray-600 hover:text-purple-600 transition-colors">
-                <Heart className="h-6 w-6" />
-              </button>
               <ShoppingCartButton />
             </div>
           </div>
