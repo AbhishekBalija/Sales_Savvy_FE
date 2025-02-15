@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import { toast } from "react-toastify";
 const useCart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [overallTotalPrice, setOverallTotalPrice] = useState(0);
@@ -72,6 +72,7 @@ const useCart = () => {
           throw new Error('Failed to add cart item');
         }
         fetchCartItems(); // Refresh the cart after adding
+        toast.success('Added to cart');
       } catch  {
         setError('Failed to add cart item');
       }
@@ -118,6 +119,7 @@ const useCart = () => {
       }
 
       fetchCartItems(); // Refresh the cart after deletion
+      toast.success('Removed from cart');
     } catch  {
       setError('Failed to delete cart item');
     }

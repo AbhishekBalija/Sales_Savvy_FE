@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import UserProfileDropdown from "../components/UserProfileDropdown";
 import ShoppingCartButton from "../components/ShoppingCartButton";
 import { useState, useEffect } from "react";
-import { Heart } from "lucide-react";
 import usePayment from "../hooks/usePayment";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -76,9 +75,6 @@ const CartPage = () => {
             {/* Right: Notification, Help, Cart, Profile */}
             <div className="flex items-center space-x-5">
               <UserProfileDropdown username={username} />
-              <button className="text-gray-600 hover:text-purple-600 transition-colors">
-                <Heart className="h-6 w-6" />
-              </button>
               <ShoppingCartButton />
             </div>
           </div>

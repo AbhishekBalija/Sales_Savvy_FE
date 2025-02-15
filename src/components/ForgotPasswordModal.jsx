@@ -46,7 +46,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
               flex items-center justify-center w-8 h-8 rounded-full 
               ${
                 index + 1 === step
-                  ? "bg-blue-600 text-white"
+                  ? "bg-purple-500 text-white"
                   : index + 1 < step
                   ? "bg-green-500 text-white"
                   : "bg-gray-200 text-gray-500"
@@ -105,7 +105,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-shadow"
                     placeholder="Enter your email"
                     required
                   />
@@ -130,7 +130,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
                     key={i}
                     type="text"
                     maxLength="1"
-                    className="w-12 h-12 text-center border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                    className="w-12 h-12 text-center border border-gray-500 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
                     value={otp[i] || ""}
                     onChange={(e) => {
                       const newOtp = otp.split("");
@@ -163,7 +163,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="New password"
                     required
                   />
@@ -176,7 +176,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Confirm password"
                     required
                   />
@@ -210,7 +210,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
               </p>
               <button
                 onClick={onClose}
-                className="mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                className="mt-6 w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors"
               >
                 Back to Login
               </button>
@@ -222,7 +222,7 @@ const ForgotPasswordModal = ({ isOpen, onClose }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
+                className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 disabled:bg-purple-300 disabled:cursor-not-allowed transition-colors"
               >
                 {loading
                   ? "Processing..."
