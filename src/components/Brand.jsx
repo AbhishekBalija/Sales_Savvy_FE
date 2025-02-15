@@ -6,7 +6,7 @@ const Brand = () => {
           <img
             src="/SalesSavvyLogo2.png"
             alt="Sales Savvy Logo"
-            className="h-[13] w-[13] object-cover mix-blend-screen"
+            className="h-12 w-12 object-cover mix-blend-screen"
           />
         </div>
         <span className="font-[rostey] text-2xl text-purple-700">
